@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>{% if is_correct %}Correct!{% else %}Incorrect{% endif %}</h1>
+    <p>{{ word.word }} ({{ word.reading }}) — {{ word.meaning }}</p>
+    <p>Next review scheduled: {{ next_review.strftime('%Y-%m-%d') }}</p>
+    <a href="{{ url_for('quiz') }}">Next question →</a>
+</body>
+</html>

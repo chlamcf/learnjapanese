@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Word</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Edit Word</h1>
+
+    <form method="POST" action="{{ url_for('edit_word', word_id=word.id) }}">
+        <label>Word:</label><br>
+        <input type="text" name="word" value="{{ word.word }}" required><br><br>
+
+        <label>Reading:</label><br>
+        <input type="text" name="reading" value="{{ word.reading }}" required><br><br>
+
+        <label>Meaning:</label><br>
+        <input type="text" name="meaning" value="{{ word.meaning }}" required><br><br>
+
+        <label>Category:</label><br>
+        <input type="text" name="category" value="{{ word.category }}"><br><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <p><a href="{{ url_for('index') }}">← Back to list</a></p>
+</body>
+</html>

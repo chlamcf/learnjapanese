@@ -1,0 +1,19 @@
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Database (optional — see note below)
+database.db
+
+# Flask session/secret
+.env
+
+# OS/editor junk
+.DS_Store
+.vscode/
+*.log

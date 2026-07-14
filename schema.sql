@@ -1,0 +1,22 @@
+DROP TABLE IF EXISTS word;
+DROP TABLE IF EXISTS quiz_attempt;
+
+CREATE TABLE word (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL,
+    reading TEXT NOT NULL,
+    meaning TEXT NOT NULL,
+    category TEXT,
+    ef REAL NOT NULL DEFAULT 2.5,
+    repetition INTEGER NOT NULL DEFAULT 0,
+    interval_days INTEGER NOT NULL DEFAULT 0,
+    next_review TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE quiz_attempt (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word_id INTEGER NOT NULL,
+    is_correct INTEGER NOT NULL,
+    answered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (word_id) REFERENCES word(id)
+);

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Quiz</h1>
+    <p>Score: {{ score.correct }} correct / {{ score.incorrect }} incorrect</p>
+    <p>Words due for review: {{ due_count }}</p>
+    <h2>{{ word.word }}</h2>
+    <p>({{ word.meaning }})</p>
+    <form method="POST" action="{{ url_for('quiz_answer') }}">
+        <input type="hidden" name="word_id" value="{{ word.id }}">
+        {% for choice in choices %}
+            <button type="submit" name="selected_id" value="{{ choice.id }}">
+                {{ choice.reading }}
+            </button><br>
+        {% endfor %}
+    </form>
+    <a href="{{ url_for('quiz_end') }}">End quiz</a>
+</body>
+</html>
