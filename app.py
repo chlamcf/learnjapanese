@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, g, session
 import sqlite3
 from sm2 import sm2_update, quality_from_correctness
+import json
 
 app = Flask(__name__)
 app.secret_key = "dev-secret-key"
@@ -165,6 +166,36 @@ def quiz_answer():
 def quiz_end():
     score = session.pop("score", {"correct": 0, "incorrect": 0})
     return render_template("quiz_summary.html", score=score)
+
+@app.route("/stats")
+def stats():
+    db = get_db()
+    rows = db.execute("""
+        SELECT DATE(answered_at) AS day,
+               SUM(is_correct) AS correct,
+               SUM(1 - is_correct) AS incorrect
+        FROM quiz_attempt
+        GROUP BY day
+        ORDER BY day ASC
+    """).fetchall()
+
+    labels = [r["day"] for r in rows]
+    correct = [r["correct"] for r in rows]
+    incorrect = [r["incorrect"] for r in rows]
+
+    total_words = db.execute("SELECT COUNT(*) AS c FROM word").fetchone()["c"]
+    words_reviewed = db.execute(
+        "SELECT COUNT(DISTINCT word_id) AS c FROM quiz_attempt"
+    ).fetchone()["c"]
+
+    return render_template(
+        "stats.html",
+        labels=json.dumps(labels),
+        correct=json.dumps(correct),
+        incorrect=json.dumps(incorrect),
+        total_words=total_words,
+        words_reviewed=words_reviewed,
+    )
 
 if __name__ == "__main__": 
     app.run(debug=True)
