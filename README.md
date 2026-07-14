@@ -1,9 +1,7 @@
-# learnjapanese
+# Japanese Vocabulary & Kanji Quiz App
 
 天気がいいから、散歩しましょう！
 (The weather is nice, let's take a walk!)
-
-# Japanese Vocabulary & Kanji Quiz App
 
 A full-stack Flask web app for practicing Japanese vocabulary and kanji using
 flashcard-style quizzes with spaced repetition (SM-2).
