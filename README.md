@@ -1,5 +1,8 @@
 # learnjapanese
 
+天気がいいから、散歩しましょう！
+(The weather is nice, let's take a walk!)
+
 # Japanese Vocabulary & Kanji Quiz App
 
 A full-stack Flask web app for practicing Japanese vocabulary and kanji using
@@ -16,7 +19,7 @@ flashcard-style quizzes with spaced repetition (SM-2).
 - Backend: Python 3 + Flask
 - Database: SQLite
 - Frontend: HTML + Jinja2 templates + CSS, Chart.js for graphs
-- Deployment: Render (or PythonAnywhere)
+- Deployment: Render
 
 ## Local Setup
 1. Clone the repo and `cd` into it
