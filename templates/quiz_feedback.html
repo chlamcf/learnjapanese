@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>{% if is_correct %}Correct!{% else %}Incorrect{% endif %}</h1>
-    <p>{{ word.word }} ({{ word.reading }}) — {{ word.meaning }}</p>
+    <h1>{% if is_correct %}Correct!{% else %}Incorrect, the correct answer is:{% endif %}</h1>
+    <h2>{{ word.reading }}</h2>
+    <p>{{ word.word }} — {{ word.meaning }}</p>
     <p>Next review scheduled: {{ next_review.strftime('%Y-%m-%d') }}</p>
     <a href="{{ url_for('quiz') }}" class="next-question-btn">Next question →</a>
 </body>
