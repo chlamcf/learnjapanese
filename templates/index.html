@@ -14,6 +14,16 @@
     <a href="{{ url_for('stats') }}" class="btn">View Progress</a>
   </nav>
 
+  <form method="GET" action="{{ url_for('index') }}" class="filter-bar">
+    <label for="level">Filter by JLPT level:</label>
+    <select name="level" id="level" onchange="this.form.submit()">
+      <option value="" {% if not selected_level %}selected{% endif %}>All levels</option>
+      {% for lvl in jlpt_levels %}
+      <option value="{{ lvl }}" {% if selected_level == lvl %}selected{% endif %}>{{ lvl }}</option>
+      {% endfor %}
+    </select>
+  </form>
+
   <table>
     <thead>
       <tr>

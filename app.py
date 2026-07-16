@@ -9,6 +9,8 @@ app = Flask(__name__)
 app.secret_key = "dev-secret-key"
 DATABASE = "database.db"
 
+JLPT_LEVELS = ["N5", "N4", "N3", "N2", "N1"]
+
 def get_db():
     """Open a new database connection if one doesn't already exist
     for the current request context, and reuse it if it does."""
@@ -27,8 +29,29 @@ def close_db(exception=None):
 @app.route("/")
 def index():
     db = get_db()
-    words = db.execute("SELECT * FROM word ORDER BY id DESC").fetchall()
-    return render_template("index.html", words=words)
+    level = request.args.get("level", "").strip()
+
+    base_query = """
+        SELECT *,
+        CASE category
+            WHEN 'JLPT N5' THEN 1
+            WHEN 'JLPT N4' THEN 2
+            WHEN 'JLPT N3' THEN 3
+            WHEN 'JLPT N2' THEN 4
+            WHEN 'JLPT N1' THEN 5
+            ELSE 6
+        END AS lvl_order
+        FROM word
+    """
+
+    if level in JLPT_LEVELS:
+        query = base_query + " WHERE category = ? ORDER BY lvl_order ASC, id DESC"
+        words = db.execute(query, (f"JLPT {level}",)).fetchall()
+    else:
+        query = base_query + " ORDER BY lvl_order ASC, id DESC"
+        words = db.execute(query).fetchall()
+
+    return render_template("index.html", words=words, jlpt_levels=JLPT_LEVELS, selected_level=level)
 
 # ---------- CREATE: add a new word ----------
 @app.route("/add", methods=["GET", "POST"])
@@ -37,7 +60,8 @@ def add_word():
         word = request.form["word"].strip()
         reading = request.form["reading"].strip()
         meaning = request.form["meaning"].strip()
-        category = request.form.get("category", "").strip()
+        level = request.form.get("category", "").strip()
+        category = f"JLPT {level}" if level in JLPT_LEVELS else ""
 
         if word and reading and meaning:
             db = get_db()
@@ -48,7 +72,7 @@ def add_word():
             db.commit()
             return redirect(url_for("index"))
 
-    return render_template("add_word.html")
+    return render_template("add_word.html", jlpt_levels=JLPT_LEVELS)
 
 # ---------- UPDATE: edit an existing word ----------
 @app.route("/edit/<int:word_id>", methods=["GET", "POST"])
@@ -63,7 +87,8 @@ def edit_word(word_id):
         new_word = request.form["word"].strip()
         new_reading = request.form["reading"].strip()
         new_meaning = request.form["meaning"].strip()
-        new_category = request.form.get("category", "").strip()
+        new_level = request.form.get("category", "").strip()
+        new_category = f"JLPT {new_level}" if new_level in JLPT_LEVELS else ""
 
         db.execute(
             "UPDATE word SET word = ?, reading = ?, meaning = ?, category = ? WHERE id = ?",
@@ -72,7 +97,8 @@ def edit_word(word_id):
         db.commit()
         return redirect(url_for("index"))
 
-    return render_template("edit_word.html", word=word)
+    current_level = word["category"].replace("JLPT ", "") if word["category"] else ""
+    return render_template("edit_word.html", word=word, jlpt_levels=JLPT_LEVELS, current_level=current_level)
 
 # ---------- DELETE: remove a word ----------
 @app.route("/delete/<int:word_id>", methods=["POST"])
@@ -167,7 +193,6 @@ def quiz_answer():
         word=word,
         next_review=next_review
     )
-
 
 @app.route("/quiz/end")
 def quiz_end():

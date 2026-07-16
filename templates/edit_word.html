@@ -9,17 +9,30 @@
     <h1>Edit Word</h1>
 
     <form method="POST" action="{{ url_for('edit_word', word_id=word.id) }}">
-        <label>Word:</label><br>
-        <input type="text" name="word" value="{{ word.word }}" required><br><br>
+        <div class="form-group">
+            <label>Word:</label>
+            <input type="text" name="word" value="{{ word.word }}" required>
+        </div>
 
-        <label>Reading:</label><br>
-        <input type="text" name="reading" value="{{ word.reading }}" required><br><br>
+        <div class="form-group">
+            <label>Reading:</label>
+            <input type="text" name="reading" value="{{ word.reading }}" required>
+        </div>
 
-        <label>Meaning:</label><br>
-        <input type="text" name="meaning" value="{{ word.meaning }}" required><br><br>
+        <div class="form-group">
+            <label>Meaning:</label>
+            <input type="text" name="meaning" value="{{ word.meaning }}" required>
+        </div>
 
-        <label>Category:</label><br>
-        <input type="text" name="category" value="{{ word.category }}"><br><br>
+        <div class="form-group">
+            <label>JLPT Level:</label>
+            <select name="category">
+                <option value="" {% if not current_level %}selected{% endif %}>— None —</option>
+                {% for lvl in jlpt_levels %}
+                <option value="{{ lvl }}" {% if current_level == lvl %}selected{% endif %}>{{ lvl }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
         <button type="submit">Save Changes</button>
     </form>
