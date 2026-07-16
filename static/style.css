@@ -1,10 +1,11 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 40px auto;
-  max-width: 800px;
-  background-color: #fafafa;
-  color: #222;
-  line-height: 1.5;
+    font-family: Arial, sans-serif;
+    margin: 40px auto;
+    max-width: 800px;
+    background-color: #fafafa;
+    color: #222;
+    line-height: 1.5;
+    text-align: center;   /* NEW: centers all text/content on the page */
 }
 
 h1 { color: #333; margin-bottom: 10px; }
@@ -47,13 +48,14 @@ button:hover, input[type="submit"]:hover { background-color: #004999; }
 }
 
 .choice-btn {
-  display: block;
-  width: 100%;
-  margin: 6px 0;
-  padding: 10px;
-  background: #f0f4ff;
-  border: 1px solid #ccd;
-  color: #222;
+    display: inline-block;
+    width: auto;
+    min-width: 100px;
+    margin: 6px;
+    padding: 10px 16px;
+    background: #f0f4ff;
+    border: 1px solid #ccd;
+    color: #222;
 }
 .choice-btn:hover { background: #dbe6ff; }
 
@@ -61,9 +63,10 @@ button:hover, input[type="submit"]:hover { background-color: #004999; }
 .feedback-incorrect { color: #c62828; font-weight: bold; }
 
 .action-bar {
-  display: flex;
-  gap: 12px;
-  margin: 20px 0 30px 0;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0 30px 0;
 }
 
 .btn {
@@ -97,4 +100,27 @@ button:hover, input[type="submit"]:hover { background-color: #004999; }
 .link-btn:hover {
   background-color: transparent;
   text-decoration: underline;
+}
+
+.choices-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.next-question-btn {
+    display: inline-block;
+    margin-top: 110px;   
+    padding: 10px 16px;
+    background-color: #0066cc;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+}
+.next-question-btn:hover {
+    background-color: #004999;
+    text-decoration: none;
 }

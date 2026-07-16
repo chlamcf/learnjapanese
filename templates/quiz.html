@@ -13,11 +13,11 @@
     <p>({{ word.meaning }})</p>
     <form method="POST" action="{{ url_for('quiz_answer') }}">
         <input type="hidden" name="word_id" value="{{ word.id }}">
-        {% for choice in choices %}
-            <button type="submit" name="selected_id" value="{{ choice.id }}">
-                {{ choice.reading }}
-            </button><br>
-        {% endfor %}
+        <div class="choices-row">
+            {% for choice in choices %}
+            <button type="submit" class="choice-btn" name="selected_id" value="{{ choice.id }}">{{ choice.reading }}</button>
+            {% endfor %}
+        </div>
     </form>
     <a href="{{ url_for('quiz_end') }}">End quiz</a>
 </body>
