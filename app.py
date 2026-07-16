@@ -100,11 +100,18 @@ def quiz():
 
     correct_word = due_words[0] if due_words else random.choice(all_words)
 
-    distractors = random.sample(
-        [w for w in all_words if w["id"] != correct_word["id"]],
-        min(3, len(all_words) - 1)
-    )
-    choices = distractors + [correct_word]
+    if correct_word["distractors"]:
+        fake_readings = [r.strip() for r in correct_word["distractors"].split(",") if r.strip()][:3]
+        choices = [{"id": -(i + 1), "reading": r} for i, r in enumerate(fake_readings)]
+        choices.append({"id": correct_word["id"], "reading": correct_word["reading"]})
+    else:
+        distractors = random.sample(
+            [w for w in all_words if w["id"] != correct_word["id"]],
+            min(3, len(all_words) - 1)
+        )
+        choices = [{"id": w["id"], "reading": w["reading"]} for w in distractors]
+        choices.append({"id": correct_word["id"], "reading": correct_word["reading"]})
+
     random.shuffle(choices)
 
     session.setdefault("score", {"correct": 0, "incorrect": 0})
@@ -199,3 +206,18 @@ def stats():
 
 if __name__ == "__main__": 
     app.run(debug=True)
+
+# Run Locally
+# cd kanji-quiz-app
+# venv\Scripts\Activate.ps1
+# python app.py
+
+# Modify Data
+# del database.db
+# python seed_db.py
+# python app.py
+
+# GitHub
+# git add .
+# git commit -m "Sample Commit Message"
+# git push

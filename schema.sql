@@ -7,6 +7,7 @@ CREATE TABLE word (
     reading TEXT NOT NULL,
     meaning TEXT NOT NULL,
     category TEXT,
+    distractors TEXT,                 -- NEW: comma-separated fake readings, e.g. "つづく,さく,まく"
     ef REAL NOT NULL DEFAULT 2.5,
     repetition INTEGER NOT NULL DEFAULT 0,
     interval_days INTEGER NOT NULL DEFAULT 0,
