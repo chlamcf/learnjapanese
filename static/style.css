@@ -5,7 +5,7 @@ body {
     background-color: #fafafa;
     color: #222;
     line-height: 1.5;
-    text-align: center;   /* NEW: centers all text/content on the page */
+    text-align: center;
 }
 
 h1 { color: #333; margin-bottom: 10px; }
@@ -23,7 +23,7 @@ table {
 }
 
 th, td { padding: 8px 12px; border-bottom: 1px solid #eee; }
-th { background-color: #eee; text-align: left; }
+th { background-color: #eee; text-align: center; }
 
 a { color: #0066cc; text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -120,6 +120,7 @@ button:hover, input[type="submit"]:hover { background-color: #004999; }
     font-weight: bold;
     text-decoration: none;
 }
+
 .next-question-btn:hover {
     background-color: #004999;
     text-decoration: none;
