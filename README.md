@@ -26,9 +26,6 @@ flashcard-style quizzes with spaced repetition (SM-2).
 4. `python seed_db.py` (creates database.db and seeds starter words)
 5. `python app.py` and visit http://127.0.0.1:5000
 
-## Live Demo
-(To be updated)
-
 ## Screenshots
 (To be updated)
 
