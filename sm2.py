@@ -23,7 +23,6 @@ def sm2_update(ef, repetition, interval_days, quality):
     next_review = datetime.now() + timedelta(days=interval_days)
     return ef, repetition, interval_days, next_review
 
-
 def quality_from_correctness(is_correct):
     """
     Maps a simple right/wrong multiple-choice result to an SM-2 quality score.

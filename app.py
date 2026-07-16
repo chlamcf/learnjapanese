@@ -14,7 +14,7 @@ def get_db():
     for the current request context, and reuse it if it does."""
     if "db" not in g:
         g.db = sqlite3.connect(DATABASE)
-        g.db.row_factory = sqlite3.Row  # Access columns by name, e.g. row["word"]
+        g.db.row_factory = sqlite3.Row
     return g.db
 
 @app.teardown_appcontext
@@ -82,7 +82,7 @@ def delete_word(word_id):
     db.commit()
     return redirect(url_for("index"))
 
-app.secret_key = "dev-secret-key"  # required for session to work
+app.secret_key = "dev-secret-key"
 
 @app.route("/quiz")
 def quiz():

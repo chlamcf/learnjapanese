@@ -15,7 +15,7 @@ def init_db():
 
 def seed_words():
     starter_words = [
-        # word, reading, meaning, category, distractors (fake readings, same trailing kana pattern)
+        # word, reading, meaning, category, distractors
         ("食べる", "たべる", "to eat", "JLPT N5", "あべる,とべる,しべる"),
         ("飲む", "のむ", "to drink", "JLPT N5", "よむ,すむ,たのむ"),
         ("行く", "いく", "to go", "JLPT N5", "つづく,さく,まく"),
