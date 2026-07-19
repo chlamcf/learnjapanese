@@ -231,18 +231,3 @@ def stats():
 
 if __name__ == "__main__": 
     app.run(debug=True)
-
-# Run Locally
-# cd kanji-quiz-app
-# venv\Scripts\Activate.ps1
-# python app.py
-
-# Modify Data
-# del database.db
-# python seed_db.py
-# python app.py
-
-# GitHub
-# git add .
-# git commit -m "Sample Commit Message"
-# git push
