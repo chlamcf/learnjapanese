@@ -9,9 +9,9 @@
   <h1>Vocabulary List</h1>
 
   <nav class="action-bar">
-    <a href="{{ url_for('add_word') }}" class="btn">Add New Word</a>
-    <a href="{{ url_for('quiz') }}" class="btn">Take a Quiz</a>
-    <a href="{{ url_for('stats') }}" class="btn">View Progress</a>
+      <a href="{{ url_for('add_word') }}" class="btn">Add New Word</a>
+      <a href="{{ url_for('quiz_start') }}" class="btn">Take a Quiz</a>
+      <a href="{{ url_for('stats') }}" class="btn">View Progress</a>
   </nav>
 
   <form method="GET" action="{{ url_for('index') }}" class="filter-bar">

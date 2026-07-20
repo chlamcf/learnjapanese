@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Choose a Level</h1>
+
+    <form method="GET" action="{{ url_for('quiz') }}">
+        <div class="form-group">
+            <label>JLPT Level:</label>
+            <select name="level">
+                <option value="">All levels</option>
+                {% for lvl in jlpt_levels %}
+                <option value="{{ lvl }}">{{ lvl }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Start Quiz</button>
+    </form>
+
+    <p><a href="{{ url_for('index') }}">← Back to word list</a></p>
+</body>
+</html>

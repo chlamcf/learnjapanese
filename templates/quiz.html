@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Quiz</h1>
+    <p>Level: {{ selected_level if selected_level else "All levels" }}</p>
     <p>Score: {{ score.correct }} correct / {{ score.incorrect }} incorrect</p>
     <p>Words due for review: {{ due_count }}</p>
     <h2>{{ word.word }}</h2>

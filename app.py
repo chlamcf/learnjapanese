@@ -110,19 +110,37 @@ def delete_word(word_id):
 
 app.secret_key = "dev-secret-key"
 
+@app.route("/quiz/start")
+def quiz_start():
+    return render_template("quiz_start.html", jlpt_levels=JLPT_LEVELS)
+
 @app.route("/quiz")
 def quiz():
     db = get_db()
     now = datetime.now().isoformat()
 
-    due_words = db.execute(
-        "SELECT * FROM word WHERE next_review <= ? ORDER BY next_review ASC",
-        (now,)
-    ).fetchall()
+    if "level" in request.args:
+        level = request.args.get("level", "").strip()
+        session["quiz_level"] = level
+        session["score"] = {"correct": 0, "incorrect": 0}
+    else:
+        level = session.get("quiz_level", "")
 
-    all_words = db.execute("SELECT * FROM word").fetchall()
-    if len(all_words) < 4:
-        return "Add at least 4 words before starting a quiz."
+    session.setdefault("score", {"correct": 0, "incorrect": 0})
+
+    if level in JLPT_LEVELS:
+        category = f"JLPT {level}"
+        due_words = db.execute(
+            "SELECT * FROM word WHERE category = ? AND next_review <= ? ORDER BY next_review ASC",
+            (category, now)
+        ).fetchall()
+        all_words = db.execute("SELECT * FROM word WHERE category = ?", (category,)).fetchall()
+    else:
+        due_words = db.execute(
+            "SELECT * FROM word WHERE next_review <= ? ORDER BY next_review ASC",
+            (now,)
+        ).fetchall()
+        all_words = db.execute("SELECT * FROM word").fetchall()
 
     correct_word = due_words[0] if due_words else random.choice(all_words)
 
@@ -140,14 +158,13 @@ def quiz():
 
     random.shuffle(choices)
 
-    session.setdefault("score", {"correct": 0, "incorrect": 0})
-
     return render_template(
         "quiz.html",
         word=correct_word,
         choices=choices,
         score=session["score"],
-        due_count=len(due_words)
+        due_count=len(due_words),
+        selected_level=level
     )
 
 @app.route("/quiz/answer", methods=["POST"])
@@ -197,6 +214,7 @@ def quiz_answer():
 @app.route("/quiz/end")
 def quiz_end():
     score = session.pop("score", {"correct": 0, "incorrect": 0})
+    session.pop("quiz_level", None)
     return render_template("quiz_summary.html", score=score)
 
 @app.route("/stats")
