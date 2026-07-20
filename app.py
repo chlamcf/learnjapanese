@@ -29,7 +29,7 @@ def close_db(exception=None):
 @app.route("/")
 def index():
     db = get_db()
-    level = request.args.get("level", "").strip()
+    level = request.args.get("level", "N5").strip()
 
     base_query = """
         SELECT *,
@@ -220,18 +220,33 @@ def quiz_end():
 @app.route("/stats")
 def stats():
     db = get_db()
-    rows = db.execute("""
-        SELECT DATE(answered_at) AS day,
-               SUM(is_correct) AS correct,
-               SUM(1 - is_correct) AS incorrect
-        FROM quiz_attempt
-        GROUP BY day
-        ORDER BY day ASC
-    """).fetchall()
+    level = request.args.get("level", "").strip()
+
+    base_query = """
+        SELECT DATE(qa.answered_at) AS day,
+               SUM(qa.is_correct) AS correct,
+               SUM(1 - qa.is_correct) AS incorrect
+        FROM quiz_attempt qa
+        JOIN word w ON w.id = qa.word_id
+    """
+
+    if level in JLPT_LEVELS:
+        query = base_query + " WHERE w.category = ? GROUP BY day ORDER BY day ASC"
+        rows = db.execute(query, (f"JLPT {level}",)).fetchall()
+    else:
+        query = base_query + " GROUP BY day ORDER BY day ASC"
+        rows = db.execute(query).fetchall()
 
     labels = [r["day"] for r in rows]
     correct = [r["correct"] for r in rows]
     incorrect = [r["incorrect"] for r in rows]
+
+    ratio_row = db.execute(
+        base_query.replace("GROUP BY day", "") .replace(
+            "SELECT DATE(qa.answered_at) AS day,", "SELECT"
+        ) + (" WHERE w.category = ?" if level in JLPT_LEVELS else ""),
+        (f"JLPT {level}",) if level in JLPT_LEVELS else ()
+    ).fetchone()
 
     total_words = db.execute("SELECT COUNT(*) AS c FROM word").fetchone()["c"]
     words_reviewed = db.execute(
@@ -245,6 +260,10 @@ def stats():
         incorrect=json.dumps(incorrect),
         total_words=total_words,
         words_reviewed=words_reviewed,
+        jlpt_levels=JLPT_LEVELS,
+        selected_level=level,
+        ratio_correct=ratio_row["correct"] if ratio_row else 0,
+        ratio_incorrect=ratio_row["incorrect"] if ratio_row else 0,
     )
 
 if __name__ == "__main__": 

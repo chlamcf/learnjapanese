@@ -102,6 +102,12 @@ button:hover, input[type="submit"]:hover {
 .feedback-correct { color: var(--success); font-weight: bold; }
 .feedback-incorrect { color: var(--error); font-weight: bold; }
 
+.chart-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
 .action-bar {
     display: flex;
     justify-content: center;
