@@ -28,9 +28,6 @@ flashcard-style quizzes with spaced repetition (SM-2).
 
 - Hint: To have a taste of the quiz without going through too many questions, choose level "N1". The word list for N1 is intentionally kept short for this purpose.
 
-## Screenshots
-(To be updated)
-
 ## Project Structure
 - app.py — routes and CRUD/quiz logic
 - sm2.py — spaced repetition algorithm
