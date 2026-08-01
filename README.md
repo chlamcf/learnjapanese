@@ -28,6 +28,11 @@ flashcard-style quizzes with spaced repetition (SM-2).
 
 - Hint: To have a taste of the quiz without going through too many questions, choose level "N1". The word list for N1 is intentionally kept short for this purpose.
 
+## Testing
+
+- The spaced-repetition logic in sm2.py is covered by a unittest-based test suite in test_sm2.py, which tests both sm2_update and quality_from_correctness.
+- To run the test: `python -m unittest test_sm2.py -v`
+
 ## Project Structure
 - app.py — routes and CRUD/quiz logic
 - sm2.py — spaced repetition algorithm
